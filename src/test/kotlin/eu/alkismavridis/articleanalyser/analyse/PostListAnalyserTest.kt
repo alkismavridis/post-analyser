@@ -2,15 +2,15 @@ package eu.alkismavridis.articleanalyser.analyse
 
 import org.assertj.core.api.Assertions.assertThat
 import org.assertj.core.api.Assertions.assertThatExceptionOfType
+import org.junit.jupiter.api.Test
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
 import java.util.stream.Stream
-import kotlin.test.Test
 
 class PostListAnalyserTest {
     companion object {
-        val URL_WITH_POSTS = "https://some.url.eu/with/posts/"
-        val URL_WITHOUT_POSTS = "https://some.url.eu/without/posts/"
+        const val URL_WITH_POSTS = "https://some.url.eu/with/posts/"
+        const val URL_WITHOUT_POSTS = "https://some.url.eu/without/posts/"
     }
 
     /// findPostWithMostWords tests

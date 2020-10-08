@@ -1,7 +1,7 @@
 package eu.alkismavridis.articleanalyser.analyse
 
 import org.assertj.core.api.Assertions.assertThat
-import kotlin.test.Test
+import org.junit.jupiter.api.Test
 
 
 class TextMetadataProviderTest {
