@@ -62,7 +62,7 @@ class PostListAnalyserTest {
         `when`(provider.getPosts(URL_WITH_POSTS)).thenReturn(Stream.of(
                 PostData("Small post", "I have a few words. This is A small post."),
                 PostData("Large post", "I have 11 more 11 words. 11 WordS! 11 WorDs? 11 <wORds> 11. I should ignore 11 and url https://docs.gradle.org/current/userguide/userguide.html"),
-                PostData("Middle post", "I am a middle post. post POST! poSt. POst, post? post! Post!")
+                PostData("Middle post", "I am a middle post. POST! poSt. POst, post! Post!")
         ))
 
         `when`(provider.getPosts(URL_WITHOUT_POSTS)).thenReturn(Stream.empty())

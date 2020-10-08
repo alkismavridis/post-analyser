@@ -24,7 +24,7 @@ class TextMetadataProviderTest {
 
     @Test
     fun shouldSplitOnSpecialCharacters() {
-        assertThat(provider.splitWords("{This}, !is!  <the>,   (text)  [to] split$ \n more? characters| \$to ;split* \"quotes\" 'single'")).containsExactly(
+        assertThat(provider.splitWords("{This}, !is!  <the>,   (text)  [to] split$ \n more? characters| \$to split* \"quotes\" 'single'")).containsExactly(
                 "",
                 "This",
                 "is",
@@ -118,6 +118,7 @@ class TextMetadataProviderTest {
         assertThat(provider.extractWord("lookAtThis!")).isEqualTo("lookatthis")
         assertThat(provider.extractWord("queSTion?")).isEqualTo("question")
         assertThat(provider.extractWord("exampLe:")).isEqualTo("example")
+        assertThat(provider.extractWord("semicoLon;")).isEqualTo("semicolon")
     }
 
     @Test

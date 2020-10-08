@@ -6,9 +6,10 @@ class TextMetadata(val wordCount: Int, val mostCommonWord: String)
 
 class TextMetadataProvider {
     companion object {
-        val WORD_SEPARATOR_PATTERN = Pattern.compile("[\\s,!|$*;\"'\\[\\]()<>{}]+")!!
+        val WORD_SEPARATOR_PATTERN = Pattern.compile("[\\s,!|$*\"'\\[\\]()<>{}]+")!!
+        val LETTER_REGEX = Regex("[a-zA-Z]")
         val IS_NUMBER_PATTERN = Pattern.compile("(([+|-]?([0-9]+)(\\.[0-9]+)?)|([+|-]?\\.?[0-9]+))%?")!!
-        val IS_URL_PATTERN = Pattern.compile("^(?!mailto:)(?:(?:http|https|ftp)://)?[-a-zA-Z0-9@:%._+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_+.~#?&/=]*)")!!
+        val IS_URL_PATTERN = Pattern.compile("^(?!mailto:)(?:(?:http|https|ftp)://)?[-a-zA-Z0-9@:%._+~#=]{1,256}\\.[a-zA-Z0-9()]{1,6}\\b([-a-zA-Z0-9()@:%_+.~#?&/=;]*)")!!
     }
 
     fun analyse(text: String): TextMetadata {
@@ -18,12 +19,12 @@ class TextMetadataProvider {
         var realWordCount = 0
         words.forEach {
             if (this.isRealWord(it)) {
-                addToMap(this.extractWord(it), occurrences)
+                this.addToMap(this.extractWord(it), occurrences)
                 realWordCount++
             }
         }
 
-        val mostCommonWord = getMostCommonWordOf(occurrences)
+        val mostCommonWord = this.getMostCommonWordOf(occurrences)
         return TextMetadata(realWordCount, mostCommonWord)
     }
 
@@ -36,7 +37,7 @@ class TextMetadataProvider {
         val lastChar = wordText[wordText.lastIndex]
         val firstChar = wordText[0]
         val cutFirstCharacter = firstChar == '$' || firstChar == '#'
-        val cutLastCharacter = lastChar == '.' || lastChar == '?' || lastChar == ':' || lastChar == '!'
+        val cutLastCharacter = lastChar == '.' || lastChar == '?' || lastChar == '!' || lastChar == ':' || lastChar == ';'
 
         if (!cutFirstCharacter && !cutLastCharacter) {
             return wordText.toLowerCase()
@@ -51,7 +52,10 @@ class TextMetadataProvider {
 
     /** Excludes URLS and numbers. */
     internal fun isRealWord(word: String): Boolean {
-        return word.isNotBlank() && !IS_NUMBER_PATTERN.matcher(word).matches() && !IS_URL_PATTERN.matcher(word).matches()
+        return word.isNotBlank() &&
+                word.contains(LETTER_REGEX) &&
+                !IS_NUMBER_PATTERN.matcher(word).matches() &&
+                !IS_URL_PATTERN.matcher(word).matches()
     }
 
 
